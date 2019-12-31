@@ -48,6 +48,17 @@ void drawGrid() {
         glVertex3f((float)halfGridSizeY, 0, (float)i);
     }
     glEnd();
+
+    // grid background
+    glLineWidth(1);
+    glColor3ub(30, 85, 80);
+    glBegin(GL_QUADS);
+    glNormal3f(0, 1, 0);
+    glVertex3f(-5 - 0.5, -0.51, -6.5);
+    glVertex3f(-5 - 0.5, -0.51, 6.5);
+    glVertex3f(6 - 0.5, -0.51, 6.5);
+    glVertex3f(6 - 0.5, -0.51, -6.5);
+    glEnd();
 }
 
 void display(GLFWwindow* window) {
@@ -73,11 +84,18 @@ void display(GLFWwindow* window) {
     }
 }
 
+void initOpenGL() {
+    glEnable(GL_DEPTH_TEST);
+}
+
 int main() {
     glfwInit();
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, SCR_TITLE, NULL, NULL);
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, onWindowResize);
+    
+    // setup any required OpenGL settings
+    initOpenGL();
 
     display(window);
 }
