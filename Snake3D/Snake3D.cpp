@@ -1,4 +1,5 @@
-#include <GL/freeglut.h>
+#include "Snake3D.h"
+
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -40,7 +41,7 @@ void onWindowResize(GLFWwindow* window, int width, int height) {
 // Display Lists
 // creates a simple cube
 void cubeDL() {
-    GLuint cube = glGenLists(1);
+    cube = glGenLists(1);
     glNewList(cube, GL_COMPILE);
         glBegin(GL_QUADS);
         // front face
