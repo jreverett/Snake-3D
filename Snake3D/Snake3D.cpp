@@ -21,6 +21,9 @@ int halfGridSizeY = 5;
 // camera
 float yCamPos = 13.0f;
 
+
+/////////////////////////////////////
+// Callbacks & Listeners
 void onWindowResize(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
     
@@ -31,6 +34,55 @@ void onWindowResize(GLFWwindow* window, int width, int height) {
     gluPerspective(50, aspectRatio, 1, 250);
     glMatrixMode(GL_MODELVIEW);
 }
+
+
+/////////////////////////////////////
+// Display Lists
+// creates a simple cube
+void cubeDL() {
+    GLuint cube = glGenLists(1);
+    glNewList(cube, GL_COMPILE);
+        glBegin(GL_QUADS);
+        // front face
+        glNormal3f(0, 0, -1);
+        glVertex3f(0.5, 0.5, -0.5); 
+        glVertex3f(-0.5, 0.5, -0.5);
+        glVertex3f(-0.5, -0.5, -0.5);
+        glVertex3f(0.5, -0.5, -0.5);
+        // back face
+        glNormal3f(0, 0, 1);
+        glVertex3f(0.5, 0.5, 0.5);
+        glVertex3f(-0.5, 0.5, 0.5);
+        glVertex3f(-0.5, -0.5, 0.5);
+        glVertex3f(0.5, -0.5, 0.5);
+        // top face
+        glNormal3f(0, 1, 0);
+        glVertex3f(-0.5, 0.5, -0.5);
+        glVertex3f(-0.5, 0.5, 0.5);
+        glVertex3f(0.5, 0.5, 0.5);
+        glVertex3f(0.5, 0.5, -0.5);
+        // bottom face
+        glNormal3f(0, -1, 0);
+        glVertex3f(-0.5, -0.5, -0.5);
+        glVertex3f(-0.5, -0.5, 0.5);
+        glVertex3f(0.5, -0.5, 0.5);
+        glVertex3f(0.5, -0.5, -0.5);
+        // left face
+        glNormal3f(1, 0, 0);
+        glVertex3f(0.5, 0.5, -0.5);
+        glVertex3f(0.5, 0.5, 0.5);
+        glVertex3f(0.5, -0.5, 0.5);
+        glVertex3f(0.5, -0.5, -0.5);
+        // right face
+        glNormal3f(-1, 0, 0);
+        glVertex3f(-0.5, 0.5, -0.5);
+        glVertex3f(-0.5, 0.5, 0.5);
+        glVertex3f(-0.5, -0.5, 0.5);
+        glVertex3f(-0.5, -0.5, -0.5);
+        glEnd();
+    glEndList();
+}
+
 
 void drawGrid() {
     // basic grid/matrix (green lines)
