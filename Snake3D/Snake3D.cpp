@@ -62,6 +62,8 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         glfwSetWindowShouldClose(window, true);
         break;
     }
+
+    snake.detectCollisions(food, halfGridSize);
 }
 
 
