@@ -1,5 +1,6 @@
 #include "Snake3D.h"
 #include "Snake.h"
+#include "Food.h"
 
 #include <GLFW/glfw3.h>
 
@@ -17,7 +18,9 @@ const char* SCR_TITLE = "Snake3D";
 int halfGridSizeX = 6;
 int halfGridSizeY = 6; // actually the Z axis
 
-Snake* snake = new Snake(0, 0, 3);
+// game objects
+Snake* snake = new Snake(0, 0, 5);
+Food* food = new Food(2, 0.5, 3);
 
 // camera
 float yCamPos = 13.0f;
@@ -181,6 +184,7 @@ void display(GLFWwindow* window) {
         }
 
         snake->draw();
+        food->draw();
         frames++;
 
         if (glfwGetTime() - timer > 1.0) {
