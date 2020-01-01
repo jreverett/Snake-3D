@@ -75,3 +75,5 @@ void Snake::detectCollisions() {
 }
 
 Direction Snake::getCurrDirection() { return currDirection; }
+
+bool Snake::isAlive() { return alive; }

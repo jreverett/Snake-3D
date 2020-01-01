@@ -20,9 +20,11 @@ public:
 	void detectCollisions();
 
 	Direction getCurrDirection();
+	bool isAlive(); // checks if the snake has crashed into itself or a wall
 
 private:
 	int score;
+	bool alive = true;
 	Direction currDirection;
 };
 
