@@ -3,7 +3,12 @@
 
 #include <GL/freeglut.h>
 
-// Display list IDs
-GLuint cube;
+// Data Structures
+enum class Direction {
+    DIR_UP,
+    DIR_DOWN,
+    DIR_LEFT,
+    DIR_RIGHT
+};
 
 #endif

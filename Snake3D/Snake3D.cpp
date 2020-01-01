@@ -1,11 +1,8 @@
 #include "Snake3D.h"
+#include "Snake.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
-
-
-/////////////////////////////////////
-// Forward Declarations
 
 
 /////////////////////////////////////
@@ -18,6 +15,8 @@ const char* SCR_TITLE = "Snake3D";
 // default game params
 int halfGridSizeX = 5;
 int halfGridSizeY = 5;
+
+Snake* snake = new Snake(0, 0, 3);
 
 // camera
 float yCamPos = 13.0f;
@@ -41,7 +40,7 @@ void onWindowResize(GLFWwindow* window, int width, int height) {
 // Display Lists
 // creates a simple cube
 void cubeDL() {
-    cube = glGenLists(1);
+    GLuint cube = glGenLists(1);
     glNewList(cube, GL_COMPILE);
         glBegin(GL_QUADS);
         // front face
@@ -82,6 +81,8 @@ void cubeDL() {
         glVertex3f(-0.5, -0.5, -0.5);
         glEnd();
     glEndList();
+
+    std::cout << cube << std::endl;
 }
 
 
@@ -132,6 +133,9 @@ void display(GLFWwindow* window) {
 
         drawGrid();
 
+        // snakey stuff
+        snake->draw();
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -148,6 +152,7 @@ int main() {
     glfwSetFramebufferSizeCallback(window, onWindowResize);
     
     // setup any required OpenGL settings
+    cubeDL();
     initOpenGL();
 
     display(window);

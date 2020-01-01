@@ -20,7 +20,7 @@ void SnakeBody::draw() {
 		glColor3ub(r, g, b);
 	else
 		glColor3f(r, g, b);
-	glCallList(cube);
+	glCallList(1);
 	glPopMatrix();
 }
 
