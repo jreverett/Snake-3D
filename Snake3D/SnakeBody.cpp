@@ -31,8 +31,8 @@ void SnakeBody::setColour(float sbR, float sbG, float sbB) {
 }
 
 void SnakeBody::setX(float sbX) { x = sbX; }
-void SnakeBody::setY(float sbY) { x = sbY; }
-void SnakeBody::setZ(float sbZ) { x = sbZ; }
+void SnakeBody::setY(float sbY) { y = sbY; }
+void SnakeBody::setZ(float sbZ) { z = sbZ; }
 
 float SnakeBody::getX() { return x; }
 float SnakeBody::getY() { return y; }

@@ -2,6 +2,7 @@
 #include "Snake.h"
 
 #include <GLFW/glfw3.h>
+
 #include <iostream>
 
 
@@ -20,6 +21,9 @@ Snake* snake = new Snake(0, 0, 3);
 
 // camera
 float yCamPos = 13.0f;
+
+// frame timing
+static double limitUpdates = 1.0 / 5.0; // limit updates to 5 per second
 
 
 /////////////////////////////////////
@@ -85,7 +89,6 @@ void cubeDL() {
     std::cout << cube << std::endl;
 }
 
-
 void drawGrid() {
     float offset = 0.5f;
 
@@ -123,22 +126,45 @@ void display(GLFWwindow* window) {
     // call the resize to set the initial perspective
     onWindowResize(window, SCR_WIDTH, SCR_HEIGHT);
 
+    double lastFrame = glfwGetTime(), timer = lastFrame;
+    double deltaTime = 0, currFrame = 0;
+    int frames = 0, updates = 0;
+
     while (!glfwWindowShouldClose(window)) {
+        // frame/update timing
+        currFrame = glfwGetTime();
+        deltaTime += (currFrame - lastFrame) / limitUpdates;
+        lastFrame = currFrame;
+
         glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
          
         // position the camera looking onto the grid
         glLoadIdentity();
         gluLookAt(
-            0, yCamPos, -5, // eyeX/Y/Z (eye point)
-            0, 0, 0,        // centerX/Y/Z (reference point)
-            0, 1, 0         // upX/Y/Z (up vector)
+            0, yCamPos, -10, // eyeX/Y/Z (eye point)
+            0, 0, -1,        // centerX/Y/Z (reference point)
+            0, 1, 0          // upX/Y/Z (up vector)
         );
 
         drawGrid();
 
         // snakey stuff
+        while (deltaTime >= 1.0) {
+            snake->updateSnake();
+            updates++;
+            deltaTime--;
+        }
+
         snake->draw();
+        frames++;
+
+        if (glfwGetTime() - timer > 1.0) {
+            timer++;
+            std::cout << "FPS: " << frames << ", Updates: " << updates << std::endl;
+            updates = 0;
+            frames = 0;
+        }
 
         glfwSwapBuffers(window);
         glfwPollEvents();

@@ -32,12 +32,12 @@ void Snake::addBody() {
 }
 
 void Snake::updateSnake() {
-	// TODO: this...
+	move(currDirection);
 }
 
 void Snake::move(Direction direction) {
 	SnakeBody* snakeHead = body.at(0);
-
+	
 	if (direction == Direction::DIR_UP && currDirection != Direction::DIR_DOWN)	{
 		updateBody();
 		snakeHead->setZ(snakeHead->getZ() + 1.0f);
