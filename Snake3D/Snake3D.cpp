@@ -39,6 +39,29 @@ void onWindowResize(GLFWwindow* window, int width, int height) {
     glMatrixMode(GL_MODELVIEW);
 }
 
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (action != GLFW_PRESS)
+        return;
+
+    switch (key) {
+    case GLFW_KEY_UP:
+        snake->move(Direction::DIR_UP);
+        break;
+    case GLFW_KEY_DOWN:
+        snake->move(Direction::DIR_DOWN);
+        break;
+    case GLFW_KEY_LEFT:
+        snake->move(Direction::DIR_LEFT);
+        break;
+    case GLFW_KEY_RIGHT:
+        snake->move(Direction::DIR_RIGHT);
+        break;
+    case GLFW_KEY_ESCAPE:
+        glfwSetWindowShouldClose(window, true);
+        break;
+    }
+}
+
 
 /////////////////////////////////////
 // Display Lists
@@ -85,8 +108,6 @@ void cubeDL() {
         glVertex3f(-0.5, -0.5, -0.5);
         glEnd();
     glEndList();
-
-    std::cout << cube << std::endl;
 }
 
 void drawGrid() {
@@ -123,6 +144,9 @@ void drawGrid() {
 }
 
 void display(GLFWwindow* window) {
+    // attach callbacks
+    glfwSetKeyCallback(window, keyCallback);
+
     // call the resize to set the initial perspective
     onWindowResize(window, SCR_WIDTH, SCR_HEIGHT);
 
@@ -173,6 +197,7 @@ void display(GLFWwindow* window) {
 
 void initOpenGL() {
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LINE_SMOOTH);
 }
 
 int main() {
