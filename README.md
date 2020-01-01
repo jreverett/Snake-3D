@@ -1,4 +1,4 @@
-# SOFT356 C1: Model Loader
+# SOFT356 C2: Snake 3D
 
 #### Student No: 10550420 / Jamie Everett
 
