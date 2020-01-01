@@ -1,6 +1,9 @@
 #include "Snake.h"
 
 Snake::Snake(float sX, float sZ, int bodyLength) {
+	if (bodyLength == 0)
+		bodyLength = 1; // default to a single snake head
+
 	for (int i = 0; i < bodyLength; i++) {
 		SnakeBody* tempBody = new SnakeBody(sX - i, 0, sZ);
 
