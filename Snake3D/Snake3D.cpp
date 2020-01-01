@@ -13,8 +13,8 @@ const int SCR_HEIGHT = 600;
 const char* SCR_TITLE = "Snake3D";
 
 // default game params
-int halfGridSizeX = 5;
-int halfGridSizeY = 5;
+int halfGridSizeX = 6;
+int halfGridSizeY = 6; // actually the Z axis
 
 Snake* snake = new Snake(0, 0, 3);
 
@@ -87,6 +87,8 @@ void cubeDL() {
 
 
 void drawGrid() {
+    float offset = 0.5f;
+
     // basic grid/matrix (green lines)
     glColor3ub(24, 221, 0);
     glLineWidth(2);
@@ -94,24 +96,26 @@ void drawGrid() {
     glColor3f(0.15f, 0.75f, 0.15f);
 
     for (int i = -halfGridSizeX; i <= halfGridSizeX; i++) {
-        glVertex3f((float)i, 0, (float)-halfGridSizeX);
-        glVertex3f((float)i, 0, (float)halfGridSizeX);
+        glVertex3f((float)i - offset, 0 - offset, (float)-halfGridSizeX - offset);
+        glVertex3f((float)i - offset, 0 - offset, (float)halfGridSizeX - offset);
     }
     for (int i = -halfGridSizeY; i <= halfGridSizeY; i++) {
-        glVertex3f((float)-halfGridSizeY, 0, (float)i);
-        glVertex3f((float)halfGridSizeY, 0, (float)i);
+        glVertex3f((float)-halfGridSizeY - offset, 0 - offset, (float)i - offset);
+        glVertex3f((float)halfGridSizeY - offset, 0 - offset, (float)i - offset);
     }
     glEnd();
 
     // grid background
+    float yOffset = 0.01f; // used to drop the background away from the grid (makes clearer lines)
+
     glLineWidth(1);
     glColor3ub(30, 85, 80);
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);
-    glVertex3f(-5 - 0.5, -0.51, -6.5);
-    glVertex3f(-5 - 0.5, -0.51, 6.5);
-    glVertex3f(6 - 0.5, -0.51, 6.5);
-    glVertex3f(6 - 0.5, -0.51, -6.5);
+    glVertex3f(halfGridSizeX - offset, -offset - yOffset, -halfGridSizeY - offset); // front left
+    glVertex3f(-halfGridSizeX - offset, -offset - yOffset, -halfGridSizeY - offset); // front right
+    glVertex3f(-halfGridSizeX - offset, -offset - yOffset, halfGridSizeY - offset);  // back right
+    glVertex3f(halfGridSizeX - offset, -offset - yOffset, halfGridSizeY - offset);  // back left
     glEnd();
 }
 

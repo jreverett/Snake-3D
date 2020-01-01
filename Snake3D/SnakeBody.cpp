@@ -20,7 +20,7 @@ void SnakeBody::draw() {
 		glColor3ub(r, g, b);
 	else
 		glColor3f(r, g, b);
-	glCallList(1);
+	glCallList(1); // TODO: this CallListID shouldn't be hardcoded
 	glPopMatrix();
 }
 
