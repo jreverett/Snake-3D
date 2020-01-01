@@ -19,8 +19,8 @@ int halfGridSizeX = 6;
 int halfGridSizeY = 6; // actually the Z axis
 
 // game objects
-Snake* snake = new Snake(0, 0, 5);
-Food* food = new Food(2, 0.5, 3);
+Snake snake(0, 0, 5);
+Food food(2, 0.5, 3);
 
 // camera
 float yCamPos = 13.0f;
@@ -48,16 +48,16 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
     switch (key) {
     case GLFW_KEY_UP:
-        snake->move(Direction::DIR_UP);
+        snake.move(Direction::DIR_UP);
         break;
     case GLFW_KEY_DOWN:
-        snake->move(Direction::DIR_DOWN);
+        snake.move(Direction::DIR_DOWN);
         break;
     case GLFW_KEY_LEFT:
-        snake->move(Direction::DIR_LEFT);
+        snake.move(Direction::DIR_LEFT);
         break;
     case GLFW_KEY_RIGHT:
-        snake->move(Direction::DIR_RIGHT);
+        snake.move(Direction::DIR_RIGHT);
         break;
     case GLFW_KEY_ESCAPE:
         glfwSetWindowShouldClose(window, true);
@@ -178,13 +178,14 @@ void display(GLFWwindow* window) {
 
         // snakey stuff
         while (deltaTime >= 1.0) {
-            snake->updateSnake();
+            snake.updateSnake();
             updates++;
             deltaTime--;
         }
 
-        snake->draw();
-        food->draw();
+        snake.draw();
+        food.draw();
+        snake.detectCollisions(food);
         frames++;
 
         if (glfwGetTime() - timer > 1.0) {
