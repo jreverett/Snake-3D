@@ -3,6 +3,7 @@
 
 #include "Snake3D.h"
 #include "SnakeBody.h"
+#include "Food.h"
 
 #include <vector>
 
@@ -17,7 +18,7 @@ public:
 	void updateSnake(); // steps the entire snake
 	void move(Direction direction);
 	void updateBody(); // moves the rest of the snake (i.e not the head)
-	void detectCollisions();
+	void detectCollisions(Food* food, int halfGridSize);
 
 	Direction getCurrDirection();
 	bool isAlive(); // checks if the snake has crashed into itself or a wall

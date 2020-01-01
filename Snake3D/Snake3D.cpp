@@ -15,12 +15,11 @@ const int SCR_HEIGHT = 600;
 const char* SCR_TITLE = "Snake3D";
 
 // default game params
-int halfGridSizeX = 6;
-int halfGridSizeY = 6; // actually the Z axis
+int halfGridSize = 5;
 
 // game objects
 Snake snake(0, 0, 5);
-Food food(2, 0.5, 3);
+Food* food = new Food(2, 0.5, 3);
 
 // camera
 float yCamPos = 13.0f;
@@ -122,13 +121,13 @@ void drawGrid() {
     glBegin(GL_LINES);
     glColor3f(0.15f, 0.75f, 0.15f);
 
-    for (int i = -halfGridSizeX; i <= halfGridSizeX; i++) {
-        glVertex3f((float)i - offset, 0 - offset, (float)-halfGridSizeX - offset);
-        glVertex3f((float)i - offset, 0 - offset, (float)halfGridSizeX - offset);
+    for (int i = -halfGridSize; i <= halfGridSize + 1; i++) {
+        glVertex3f((float)i - offset, 0 - offset, (float)-halfGridSize - offset);
+        glVertex3f((float)i - offset, 0 - offset, (float)halfGridSize + 1 - offset);
     }
-    for (int i = -halfGridSizeY; i <= halfGridSizeY; i++) {
-        glVertex3f((float)-halfGridSizeY - offset, 0 - offset, (float)i - offset);
-        glVertex3f((float)halfGridSizeY - offset, 0 - offset, (float)i - offset);
+    for (int i = -halfGridSize; i <= halfGridSize + 1; i++) {
+        glVertex3f((float)-halfGridSize - offset, 0 - offset, (float)i - offset);
+        glVertex3f((float)halfGridSize + 1 - offset, 0 - offset, (float)i - offset);
     }
     glEnd();
 
@@ -139,10 +138,10 @@ void drawGrid() {
     glColor3ub(30, 85, 80);
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);
-    glVertex3f(halfGridSizeX - offset, -offset - yOffset, -halfGridSizeY - offset); // front left
-    glVertex3f(-halfGridSizeX - offset, -offset - yOffset, -halfGridSizeY - offset); // front right
-    glVertex3f(-halfGridSizeX - offset, -offset - yOffset, halfGridSizeY - offset);  // back right
-    glVertex3f(halfGridSizeX - offset, -offset - yOffset, halfGridSizeY - offset);  // back left
+    glVertex3f(halfGridSize + 1- offset, -offset - yOffset, -halfGridSize - offset); // front left
+    glVertex3f(-halfGridSize - offset, -offset - yOffset, -halfGridSize - offset); // front right
+    glVertex3f(-halfGridSize - offset, -offset - yOffset, halfGridSize + 1 - offset);  // back right
+    glVertex3f(halfGridSize + 1 - offset, -offset - yOffset, halfGridSize + 1 - offset);  // back left
     glEnd();
 }
 
@@ -179,13 +178,13 @@ void display(GLFWwindow* window) {
         // snakey stuff
         while (deltaTime >= 1.0) {
             snake.updateSnake();
+            snake.detectCollisions(food, halfGridSize);
             updates++;
             deltaTime--;
         }
 
         snake.draw();
-        food.draw();
-        snake.detectCollisions(food);
+        food->draw();
         frames++;
 
         if (glfwGetTime() - timer > 1.0) {

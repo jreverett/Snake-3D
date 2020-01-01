@@ -70,8 +70,26 @@ void Snake::updateBody() {
 	}
 }
 
-void Snake::detectCollisions() {
-	// TODO: this...
+void Snake::detectCollisions(Food* food, int halfGridSize) {
+	// check if the snakes head has hit something
+	float xHead = body.at(0)->getX();
+	float zHead = body.at(0)->getZ();
+
+	if (food->getX() == xHead && food->getZ() == zHead) {
+		// snake hit the food
+		// 1. add a body section
+		this->addBody();
+
+		// 2. move the food to a random location (not under the snake)
+		int randX = rand() % (halfGridSize * 2);
+		int randZ = rand() % (halfGridSize * 2);
+
+		randX -= halfGridSize;
+		randZ -= halfGridSize;
+		
+		food->setX(randX);
+		food->setZ(randZ);
+	}
 }
 
 Direction Snake::getCurrDirection() { return currDirection; }
