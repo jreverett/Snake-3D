@@ -147,6 +147,13 @@ void drawGrid() {
     glEnd();
 }
 
+void gameOver(GLFWwindow* window) {
+    std::cout << "*** GAME OVER! ***" << std::endl;
+    std::cout << "Your score: " << snake.body.size() << std::endl;
+
+    glfwSetWindowShouldClose(window, true);
+}
+
 void display(GLFWwindow* window) {
     // attach callbacks
     glfwSetKeyCallback(window, keyCallback);
@@ -181,6 +188,10 @@ void display(GLFWwindow* window) {
         while (deltaTime >= 1.0) {
             snake.updateSnake();
             snake.detectCollisions(food, halfGridSize);
+
+            if (!snake.isAlive())
+                gameOver(window);
+
             updates++;
             deltaTime--;
         }
@@ -217,4 +228,6 @@ int main() {
     initOpenGL();
 
     display(window);
+
+    system("pause"); // game should restart at this point
 }

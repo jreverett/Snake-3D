@@ -75,7 +75,13 @@ void Snake::detectCollisions(Food* food, int halfGridSize) {
 	float xHead = body.at(0)->getX();
 	float zHead = body.at(0)->getZ();
 
-	if (food->getX() == xHead && food->getZ() == zHead) {
+	int border = halfGridSize + 1;
+
+	if (xHead == border || xHead == -border || zHead == border || zHead == -border) {
+		// snake hit the border, kill it
+		alive = false;
+	}
+	else if (food->getX() == xHead && food->getZ() == zHead) {
 		// snake hit the food
 		// 1. add a body section
 		this->addBody();
