@@ -15,8 +15,9 @@ const int SCR_HEIGHT = 600;
 const char* SCR_TITLE = "Snake3D";
 
 // default game params
-int halfGridSize = 6;
+int halfGridSize = 5;
 bool paused = false;
+bool gameStarted = false;
 
 // game objects
 Snake snake(0, 0, 5);
@@ -58,20 +59,23 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         std::cout << (paused ? "PAUSED!" : "RESUMING...") << std::endl;
     }
 
-
     if (!paused) {
         switch (key) {
         case GLFW_KEY_UP:
             snake.move(Direction::DIR_UP);
+            gameStarted = true;
             break;
         case GLFW_KEY_DOWN:
             snake.move(Direction::DIR_DOWN);
+            gameStarted = true;
             break;
         case GLFW_KEY_LEFT:
             snake.move(Direction::DIR_LEFT);
+            gameStarted = true;
             break;
         case GLFW_KEY_RIGHT:
             snake.move(Direction::DIR_RIGHT);
+            gameStarted = true;
             break;
         }
     }
@@ -197,11 +201,11 @@ void display(GLFWwindow* window) {
 
         drawGrid();
 
-        if (paused)
+        if (paused || !gameStarted)
             deltaTime = 0;
 
         // snakey stuff
-        while (deltaTime >= 1.0 && !paused) {
+        while (deltaTime >= 1.0 && !paused && gameStarted) {
             snake.updateSnake();
             snake.detectCollisions(food, halfGridSize);
 
@@ -252,4 +256,6 @@ int main() {
     initOpenGL();
 
     display(window);
+
+    system("pause");
 }
