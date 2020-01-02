@@ -4,6 +4,7 @@
 
 #include <GLFW/glfw3.h>
 
+#include<math.h>
 #include <iostream>
 
 
@@ -15,13 +16,13 @@ const int SCR_HEIGHT = 600;
 const char* SCR_TITLE = "Snake3D";
 
 // default game params
-int halfGridSize = 5;
+int halfGridSize = 3;
 bool paused = false;
 bool gameStarted = false;
 
 // game objects
-Snake snake(0, 0, 5);
-Food* food = new Food(2, 0.5, 3);
+Snake snake(0, 0, 3);
+Food* food = new Food(2, 0.5, 0);
 
 // camera
 float yCamPos = 13.0f;
@@ -164,9 +165,15 @@ void drawGrid() {
     glEnd();
 }
 
-void gameOver(GLFWwindow* window) {
-    std::cout << "*** GAME OVER! ***" << std::endl;
-    std::cout << "Your score: " << snake.body.size() << std::endl;
+void gameOver(GLFWwindow* window, bool playerWon) {
+    if (playerWon) {
+        std::cout << "*** YOU WON! ***" << std::endl;
+        std::cout << "Final score: " << snake.body.size() << std::endl;
+    }
+    else {
+        std::cout << "*** GAME OVER! ***" << std::endl;
+        std::cout << "Your score: " << snake.body.size() << std::endl;
+    }
 
     glfwSetWindowShouldClose(window, true);
 }
@@ -209,8 +216,11 @@ void display(GLFWwindow* window) {
             snake.updateSnake();
             snake.detectCollisions(food, halfGridSize);
 
+            if (snake.body.size() == pow(((halfGridSize * 2) + 1), 2))
+                gameOver(window, true);
+
             if (!snake.isAlive())
-                gameOver(window);
+                gameOver(window, false);
 
             updates++;
             deltaTime--;
