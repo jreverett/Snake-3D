@@ -27,6 +27,11 @@ float yCamPos = 13.0f;
 // frame timing
 static double limitUpdates = 1.0 / 5.0; // limit updates to 5 per second
 
+// lighting
+GLfloat lightPos[] = { 0.0f, 3.0f, -1.0f };
+GLfloat lightAmbient[] = { 0.6f, 0.6f, 0.6f, 1.0f };
+GLfloat lightDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
 
 /////////////////////////////////////
 // Callbacks & Listeners
@@ -215,6 +220,14 @@ void display(GLFWwindow* window) {
 void initOpenGL() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LINE_SMOOTH);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+
+    glEnable(GL_COLOR_MATERIAL);
 }
 
 int main() {
