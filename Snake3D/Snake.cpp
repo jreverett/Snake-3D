@@ -96,6 +96,12 @@ void Snake::detectCollisions(Food* food, int halfGridSize) {
 		food->setX(randX);
 		food->setZ(randZ);
 	}
+	for (int i = 1; i <= body.size() - 1; i++)	{
+		if (xHead == body.at(i)->getX() && zHead == body.at(i)->getZ()) {
+			// snake hit itself, kill it
+			alive = false;
+		}
+	}
 }
 
 Direction Snake::getCurrDirection() { return currDirection; }
