@@ -15,7 +15,6 @@ public:
 	
 	void draw();
 	void addBody();
-	void addBody(int numParts);
 	void updateSnake(); // steps the entire snake
 	void move(Direction direction);
 	void updateBody(); // moves the rest of the snake (i.e not the head)
