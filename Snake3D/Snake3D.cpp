@@ -171,7 +171,7 @@ void drawGrid() {
 
 void gameOver(GLFWwindow* window, bool playerWon) {
     if (playerWon) {
-        PlaySoundW(L"win_sound.wav", NULL, SND_ASYNC);
+        PlaySoundW(L"sounds/win_sound.wav", NULL, SND_ASYNC);
         std::cout << std::endl << "*** YOU WON! ***" << std::endl;
         std::cout << "Final score: " << snake->body.size() << std::endl;
     }
@@ -319,7 +319,7 @@ int main() {
         std::string response;
         bool responseIsValid = false;
 
-        while (!responseIsValid) {
+           while (!responseIsValid) {
             std::cout << std::endl << "Would you like to play again? (Y/N)" << std::endl;
             std::cin >> response;
 
@@ -330,7 +330,7 @@ int main() {
             else
                 std::cout << "Error: Unrecognised input" << std::endl;
         }
-
+        
         requestExit = response == "N";
     }
 

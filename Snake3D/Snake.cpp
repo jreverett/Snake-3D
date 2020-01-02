@@ -86,7 +86,7 @@ void Snake::detectCollisions(Food* food, int halfGridSize) {
 	}
 	else if (food->getX() == xHead && food->getZ() == zHead) {
 		// snake hit the food
-		PlaySoundW(L"eating_sound.wav", NULL, SND_ASYNC);
+		PlaySoundW(L"sounds/eating_sound.wav", NULL, SND_ASYNC);
 
 		// 1. add a body section
 		this->addBody();
@@ -109,7 +109,7 @@ void Snake::detectCollisions(Food* food, int halfGridSize) {
 	}
 
 	if (!alive)
-		PlaySoundW(L"death_sound.wav", NULL, SND_ASYNC);
+		PlaySoundW(L"sounds/death_sound.wav", NULL, SND_ASYNC);
 }
 
 Direction Snake::getCurrDirection() { return currDirection; }
