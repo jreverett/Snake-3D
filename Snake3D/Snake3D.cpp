@@ -12,6 +12,16 @@
 
 
 /////////////////////////////////////
+// Data Structures
+enum MapSize {
+    MAP_SMALL = 3,
+    MAP_MEDIUM,
+    MAP_LARGE,
+    MAP_HUGE
+};
+
+
+/////////////////////////////////////
 // Global Variables
 // default window params
 const int SCR_WIDTH = 600;
@@ -19,7 +29,7 @@ const int SCR_HEIGHT = 600;
 const char* SCR_TITLE = "Snake3D";
 
 // default game params
-int halfGridSize = 4;
+int halfGridSize = MAP_MEDIUM;
 bool paused = false;
 bool gameStarted = false;
 bool gameFinished = false;
@@ -38,6 +48,7 @@ static double limitUpdates = 1.0 / 5.0; // limit updates to 5 per second
 GLfloat lightPos[] = { 0.0f, 3.0f, -1.0f };
 GLfloat lightAmbient[] = { 0.6f, 0.6f, 0.6f, 1.0f };
 GLfloat lightDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+/////////////////////////////////////
 
 
 /////////////////////////////////////
@@ -87,6 +98,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
     snake->detectCollisions(food, halfGridSize);
 }
+/////////////////////////////////////
 
 
 /////////////////////////////////////
@@ -135,6 +147,7 @@ void cubeDL() {
         glEnd();
     glEndList();
 }
+/////////////////////////////////////
 
 void drawGrid() {
     float offset = 0.5f;
@@ -263,6 +276,75 @@ void startGame(GLFWwindow* window) {
     display(window);
 }
 
+/////////////////////////////////////
+// Command Line Prompts
+bool promptRematch() {
+    std::string response;
+    bool responseIsValid = false;
+
+    while (!responseIsValid) {
+        std::cout << std::endl << "Would you like to play again? (Y/N)" << std::endl;
+        std::cin >> response;
+
+        std::transform(response.begin(), response.end(), response.begin(), ::toupper);
+
+        if (response == "Y" || response == "N")
+            responseIsValid = true;
+        else
+            std::cout << "Error: Unrecognised input" << std::endl;
+    }
+
+    return response == "N";
+}
+
+MapSize promptMapSize() {
+    int size;
+    bool responseIsValid = false;
+
+    while (!responseIsValid) {
+        // prompt for map size
+        std::cout << std::endl << "Please select a map size (enter 1-4):" << std::endl;
+        std::cout << "      Small  (1)" << std::endl;
+        std::cout << "      Medium (2)" << std::endl;
+        std::cout << "      Large  (3)" << std::endl;
+        std::cout << "      Huge   (4)" << std::endl;
+        std::cout << std::endl;
+        std::cin >> size;
+
+        int validSizes[] = { 1, 2, 3, 4 };
+
+        if (std::find(std::begin(validSizes), std::end(validSizes), size) != std::end(validSizes)) {
+            responseIsValid = true;
+            halfGridSize = size;
+        }
+        else {
+            std::cout << "Error: Invalid selection, please enter a number between 1 and 4" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(512, '\n');
+        }
+    }
+
+    switch (size)
+    {
+    case 1:
+        return MapSize::MAP_SMALL;
+        break;
+    case 2:
+        return MapSize::MAP_MEDIUM;
+        break;
+    case 3:
+        return MapSize::MAP_LARGE;
+        break;
+    case 4:
+        return MapSize::MAP_HUGE;
+        break;
+    default:
+        std::cout << "ERROR->" << __FUNCTION__ << ": Expecting an integer between 1 and 4 but got: " << size;
+        exit(1);
+    }
+}
+/////////////////////////////////////
+
 void initOpenGL() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LINE_SMOOTH);
@@ -311,31 +393,20 @@ int main() {
 
     printWelcomeAscii();
 
-    bool requestExit = false;
+    bool rematch = false;
 
-    while (!requestExit) {
+    while (!rematch) {
+        // get map size
+        SetForegroundWindow(GetConsoleWindow());
+        halfGridSize = promptMapSize();
+
+        // begin the game
         glfwShowWindow(window);
-
         startGame(window);
 
+        // ask for rematch
         SetForegroundWindow(GetConsoleWindow());
-
-        std::string response;
-        bool responseIsValid = false;
-
-           while (!responseIsValid) {
-            std::cout << std::endl << "Would you like to play again? (Y/N)" << std::endl;
-            std::cin >> response;
-
-            std::transform(response.begin(), response.end(), response.begin(), ::toupper);
-
-            if (response == "Y" || response == "N")
-                responseIsValid = true;
-            else
-                std::cout << "Error: Unrecognised input" << std::endl;
-        }
-        
-        requestExit = response == "N";
+        rematch = promptRematch();
     }
 
     std::cout << std::endl << "Bye!" << std::endl;
