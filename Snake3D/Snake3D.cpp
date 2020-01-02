@@ -15,7 +15,8 @@ const int SCR_HEIGHT = 600;
 const char* SCR_TITLE = "Snake3D";
 
 // default game params
-int halfGridSize = 5;
+int halfGridSize = 6;
+bool paused = false;
 
 // game objects
 Snake snake(0, 0, 5);
@@ -50,22 +51,29 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     if (action != GLFW_PRESS)
         return;
 
-    switch (key) {
-    case GLFW_KEY_UP:
-        snake.move(Direction::DIR_UP);
-        break;
-    case GLFW_KEY_DOWN:
-        snake.move(Direction::DIR_DOWN);
-        break;
-    case GLFW_KEY_LEFT:
-        snake.move(Direction::DIR_LEFT);
-        break;
-    case GLFW_KEY_RIGHT:
-        snake.move(Direction::DIR_RIGHT);
-        break;
-    case GLFW_KEY_ESCAPE:
+    if (key == GLFW_KEY_ESCAPE)
         glfwSetWindowShouldClose(window, true);
-        break;
+    else if (key == GLFW_KEY_P) {
+        paused = !paused;
+        std::cout << (paused ? "PAUSED!" : "RESUMING...") << std::endl;
+    }
+
+
+    if (!paused) {
+        switch (key) {
+        case GLFW_KEY_UP:
+            snake.move(Direction::DIR_UP);
+            break;
+        case GLFW_KEY_DOWN:
+            snake.move(Direction::DIR_DOWN);
+            break;
+        case GLFW_KEY_LEFT:
+            snake.move(Direction::DIR_LEFT);
+            break;
+        case GLFW_KEY_RIGHT:
+            snake.move(Direction::DIR_RIGHT);
+            break;
+        }
     }
 
     snake.detectCollisions(food, halfGridSize);
@@ -189,8 +197,11 @@ void display(GLFWwindow* window) {
 
         drawGrid();
 
+        if (paused)
+            deltaTime = 0;
+
         // snakey stuff
-        while (deltaTime >= 1.0) {
+        while (deltaTime >= 1.0 && !paused) {
             snake.updateSnake();
             snake.detectCollisions(food, halfGridSize);
 
@@ -207,7 +218,7 @@ void display(GLFWwindow* window) {
 
         if (glfwGetTime() - timer > 1.0) {
             timer++;
-            std::cout << "FPS: " << frames << ", Updates: " << updates << std::endl;
+            //std::cout << "FPS: " << frames << ", Updates: " << updates << std::endl; // DEBUG
             updates = 0;
             frames = 0;
         }
@@ -241,6 +252,4 @@ int main() {
     initOpenGL();
 
     display(window);
-
-    system("pause"); // game should restart at this point
 }
