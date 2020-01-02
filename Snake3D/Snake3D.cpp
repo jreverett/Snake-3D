@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include <mmsystem.h>
 #include <math.h>
+#include <algorithm>
 #include <iostream>
 
 
@@ -321,6 +322,8 @@ int main() {
         while (!responseIsValid) {
             std::cout << std::endl << "Would you like to play again? (Y/N)" << std::endl;
             std::cin >> response;
+
+            std::transform(response.begin(), response.end(), response.begin(), ::toupper);
 
             if (response == "Y" || response == "N")
                 responseIsValid = true;
