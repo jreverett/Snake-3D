@@ -98,6 +98,15 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
     snake->detectCollisions(food, halfGridSize);
 }
+
+void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {
+    if (yCamPos >= 0.5f && yCamPos <= 45.0f)
+        yCamPos -= yOffset;
+    if (yCamPos <= 0.5f)
+        yCamPos = 0.5f;
+    if (yCamPos >= 45.0f)
+        yCamPos = 45.0f;
+}
 /////////////////////////////////////
 
 
@@ -200,6 +209,7 @@ void gameOver(GLFWwindow* window, bool playerWon) {
 void display(GLFWwindow* window) {
     // attach callbacks
     glfwSetKeyCallback(window, keyCallback);
+    glfwSetScrollCallback(window, scrollCallback);
 
     // call the resize to set the initial perspective
     onWindowResize(window, SCR_WIDTH, SCR_HEIGHT);
