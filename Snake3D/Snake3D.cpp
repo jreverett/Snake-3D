@@ -256,7 +256,7 @@ void display(GLFWwindow* window) {
 void startGame(GLFWwindow* window) {
     gameFinished = false;
 
-    snake = new Snake(0, 0, 80);
+    snake = new Snake(0, 0, 3);
     food = new Food(2, 0.5, 0);
 
     display(window);
