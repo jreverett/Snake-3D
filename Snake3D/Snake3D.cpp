@@ -314,7 +314,11 @@ int main() {
     bool requestExit = false;
 
     while (!requestExit) {
+        glfwShowWindow(window);
+
         startGame(window);
+
+        SetForegroundWindow(GetConsoleWindow());
 
         std::string response;
         bool responseIsValid = false;
