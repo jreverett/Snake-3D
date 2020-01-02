@@ -92,14 +92,16 @@ void Snake::detectCollisions(Food* food, int halfGridSize) {
 		this->addBody();
 
 		// 2. move the food to a random location (not under the snake)
-		int randX = rand() % (halfGridSize * 2);
-		int randZ = rand() % (halfGridSize * 2);
+		bool foundValidSpawn = false;
+		int maxIterations = pow(((halfGridSize * 2) + 1), 2), count = 0; // prevent the last food space looping indefinately
 
-		randX -= halfGridSize;
-		randZ -= halfGridSize;
-		
-		food->setX(randX);
-		food->setZ(randZ);
+		while (!foundValidSpawn) {
+			if (count == maxIterations)
+				return;
+
+			foundValidSpawn = randomiseFoodPos(food, halfGridSize);
+			count++;
+		}
 	}
 	for (int i = 1; i <= body.size() - 1; i++)	{
 		if (xHead == body.at(i)->getX() && zHead == body.at(i)->getZ()) {
@@ -115,3 +117,27 @@ void Snake::detectCollisions(Food* food, int halfGridSize) {
 Direction Snake::getCurrDirection() { return currDirection; }
 
 bool Snake::isAlive() { return alive; }
+
+bool Snake::randomiseFoodPos(Food* food, int halfGridSize) {
+	// returns true if the food's new position is under the snake
+	int x, z;
+
+	int randX = rand() % (halfGridSize * 2);
+	int randZ = rand() % (halfGridSize * 2);
+
+	randX -= halfGridSize;
+	randZ -= halfGridSize;
+
+	food->setX(randX);
+	food->setZ(randZ);
+
+	for (int i = 0; i < body.size(); i++) {
+		x = body.at(i)->getX();
+		z = body.at(i)->getZ();
+
+		if (x == food->getX() && z == food->getZ())
+			return false;
+	}
+
+	return true;
+}

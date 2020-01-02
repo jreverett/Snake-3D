@@ -24,6 +24,8 @@ public:
 	bool isAlive(); // checks if the snake has crashed into itself or a wall
 
 private:
+	bool randomiseFoodPos(Food* food, int halfGridSize);
+
 	int score;
 	bool alive = true;
 	Direction currDirection;
