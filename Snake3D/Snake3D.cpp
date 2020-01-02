@@ -3,8 +3,7 @@
 #include "Food.h"
 
 #include <GLFW/glfw3.h>
-
-#include<math.h>
+#include <math.h>
 #include <iostream>
 
 
@@ -16,12 +15,13 @@ const int SCR_HEIGHT = 600;
 const char* SCR_TITLE = "Snake3D";
 
 // default game params
-int halfGridSize = 3;
+int halfGridSize = 4;
 bool paused = false;
 bool gameStarted = false;
+bool gameFinished = false;
 
 // game objects
-Snake snake(0, 0, 3);
+Snake* snake = new Snake(0, 0, 3);
 Food* food = new Food(2, 0.5, 0);
 
 // camera
@@ -63,25 +63,25 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     if (!paused) {
         switch (key) {
         case GLFW_KEY_UP:
-            snake.move(Direction::DIR_UP);
+            snake->move(Direction::DIR_UP);
             gameStarted = true;
             break;
         case GLFW_KEY_DOWN:
-            snake.move(Direction::DIR_DOWN);
+            snake->move(Direction::DIR_DOWN);
             gameStarted = true;
             break;
         case GLFW_KEY_LEFT:
-            snake.move(Direction::DIR_LEFT);
+            snake->move(Direction::DIR_LEFT);
             gameStarted = true;
             break;
         case GLFW_KEY_RIGHT:
-            snake.move(Direction::DIR_RIGHT);
+            snake->move(Direction::DIR_RIGHT);
             gameStarted = true;
             break;
         }
     }
 
-    snake.detectCollisions(food, halfGridSize);
+    snake->detectCollisions(food, halfGridSize);
 }
 
 
@@ -167,15 +167,16 @@ void drawGrid() {
 
 void gameOver(GLFWwindow* window, bool playerWon) {
     if (playerWon) {
-        std::cout << "*** YOU WON! ***" << std::endl;
-        std::cout << "Final score: " << snake.body.size() << std::endl;
+        std::cout << std::endl << "*** YOU WON! ***" << std::endl;
+        std::cout << "Final score: " << snake->body.size() << std::endl;
     }
     else {
-        std::cout << "*** GAME OVER! ***" << std::endl;
-        std::cout << "Your score: " << snake.body.size() << std::endl;
+        std::cout << std::endl << "*** GAME OVER! ***" << std::endl;
+        std::cout << "Your score: " << snake->body.size() << std::endl;
     }
 
-    glfwSetWindowShouldClose(window, true);
+    gameStarted = false;
+    gameFinished = true;
 }
 
 void display(GLFWwindow* window) {
@@ -213,20 +214,26 @@ void display(GLFWwindow* window) {
 
         // snakey stuff
         while (deltaTime >= 1.0 && !paused && gameStarted) {
-            snake.updateSnake();
-            snake.detectCollisions(food, halfGridSize);
+            snake->updateSnake();
+            snake->detectCollisions(food, halfGridSize);
 
-            if (snake.body.size() == pow(((halfGridSize * 2) + 1), 2))
+            if (snake->body.size() == pow(((halfGridSize * 2) + 1), 2))
                 gameOver(window, true);
 
-            if (!snake.isAlive())
+            if (!snake->isAlive())
                 gameOver(window, false);
+
+            if (gameFinished) {
+                delete snake;
+                delete food;
+                return;
+            }
 
             updates++;
             deltaTime--;
         }
 
-        snake.draw();
+        snake->draw();
         food->draw();
         frames++;
 
@@ -242,6 +249,15 @@ void display(GLFWwindow* window) {
     }
 }
 
+void startGame(GLFWwindow* window) {
+    gameFinished = false;
+
+    snake = new Snake(0, 0, 3);
+    food = new Food(2, 0.5, 0);
+
+    display(window);
+}
+
 void initOpenGL() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LINE_SMOOTH);
@@ -255,17 +271,63 @@ void initOpenGL() {
     glEnable(GL_COLOR_MATERIAL);
 }
 
+void printWelcomeAscii() {
+    std::cout << R"(
+ ###############################################################################
+ #          ---_ ......._-_--.                                                 #
+ #     (|\ /      / /| \  \                                                    #
+ #     /  /     .'  -=-'   `.                                                  #
+ #    /  /    .'             )                                                 #
+ #  _/  /   .'        _.)   /     _____             _        ____  _____  _    #
+ # / o   o        _.-' /  .'     / ____|           | |      |___ \|  __ \| |   #
+ # \          _.-'    / .'*|    | (___  _ __   __ _| | _____  __) | |  | | |   #
+ #  \______.-'//    .'.' \*|     \___ \| '_ \ / _` | |/ / _ \|__ <| |  | | |   #
+ #   \|  \ | //   .'.' _ |*|     ____) | | | | (_| |   <  __/___) | |__| |_|   #
+ #    `   \|//  .'.'_ _ _|*|    |_____/|_| |_|\__,_|_|\_\___|____/|_____/(_)   #
+ #     .  .// .'.' | _ _ \*|                                                   #
+ #     \`-|\_/ /    \ _ _ \*\                                                  #
+ #      `/'\__/      \ _ _ \*\                                                 #
+ #     /^|            \ _ _ \*                                                 #
+ #    '  `             \ _ _ \                                                 #
+ #                      \_                                                     #
+ ###############################################################################
+    )" << std::endl;
+}
+
 int main() {
     glfwInit();
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, SCR_TITLE, NULL, NULL);
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, onWindowResize);
-    
+
     // setup any required OpenGL settings
     cubeDL();
     initOpenGL();
 
-    display(window);
+    printWelcomeAscii();
 
-    system("pause");
+    bool requestExit = false;
+
+    while (!requestExit) {
+        startGame(window);
+
+        std::string response;
+        bool responseIsValid = false;
+
+        while (!responseIsValid) {
+            std::cout << std::endl << "Would you like to play again? (Y/N)" << std::endl;
+            std::cin >> response;
+
+            if (response == "Y" || response == "N")
+                responseIsValid = true;
+            else
+                std::cout << "Error: Unrecognised input" << std::endl;
+        }
+
+        requestExit = response == "N";
+    }
+
+    std::cout << std::endl << "Bye!" << std::endl;
+
+    return 0;
 }
