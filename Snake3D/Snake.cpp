@@ -1,5 +1,8 @@
 #include "Snake.h"
 
+#include <Windows.h>
+#include <mmsystem.h>
+
 Snake::Snake(float sX, float sZ, int bodyLength) {
 	if (bodyLength == 0)
 		bodyLength = 1; // default to a single snake head
@@ -83,6 +86,8 @@ void Snake::detectCollisions(Food* food, int halfGridSize) {
 	}
 	else if (food->getX() == xHead && food->getZ() == zHead) {
 		// snake hit the food
+		PlaySoundW(L"eating_sound.wav", NULL, SND_ASYNC);
+
 		// 1. add a body section
 		this->addBody();
 
@@ -102,6 +107,9 @@ void Snake::detectCollisions(Food* food, int halfGridSize) {
 			alive = false;
 		}
 	}
+
+	if (!alive)
+		PlaySoundW(L"death_sound.wav", NULL, SND_ASYNC);
 }
 
 Direction Snake::getCurrDirection() { return currDirection; }

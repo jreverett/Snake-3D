@@ -2,7 +2,10 @@
 #include "Snake.h"
 #include "Food.h"
 
+#include <GL/freeglut.h>
 #include <GLFW/glfw3.h>
+#include <Windows.h>
+#include <mmsystem.h>
 #include <math.h>
 #include <iostream>
 
@@ -167,6 +170,7 @@ void drawGrid() {
 
 void gameOver(GLFWwindow* window, bool playerWon) {
     if (playerWon) {
+        PlaySoundW(L"win_sound.wav", NULL, SND_ASYNC);
         std::cout << std::endl << "*** YOU WON! ***" << std::endl;
         std::cout << "Final score: " << snake->body.size() << std::endl;
     }
@@ -252,7 +256,7 @@ void display(GLFWwindow* window) {
 void startGame(GLFWwindow* window) {
     gameFinished = false;
 
-    snake = new Snake(0, 0, 3);
+    snake = new Snake(0, 0, 80);
     food = new Food(2, 0.5, 0);
 
     display(window);
