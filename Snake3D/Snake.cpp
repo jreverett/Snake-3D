@@ -24,8 +24,7 @@ Snake::Snake(float sX, float sZ, int bodyLength) {
 void Snake::draw() {
 	// draw all the body parts
 	for (int i = 0; i <= body.size() - 1; i++) {
-		SnakeBody* tempBody = body.at(i);
-		tempBody->draw();
+		body.at(i)->draw();
 	}
 }
 
