@@ -41,7 +41,7 @@ Snake3D comes with the following controls to provide player interaction with the
 
 ### How To Play
 
-To start Snake3D, launch the executable file *Snake3D.exe*. Once running, the player will see a prompt in the console window asking them to choose a map size, the map sizes break down as follows:
+To start Snake3D, launch the executable file *Snake3D.exe*, which can be found by starting at the solution level and  navigating to *x64/Debug*. Once running, the player will see a prompt in the console window asking them to choose a map size, the map sizes break down as follows:
 
 | Map Size | Map Dimensions | Number of Blocks (% increase from previous size) |
 | :------- | :-----------: | :--------------: |
