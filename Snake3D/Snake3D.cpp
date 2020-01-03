@@ -69,7 +69,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         return;
 
     if (key == GLFW_KEY_ESCAPE)
-        glfwSetWindowShouldClose(window, true);
+        exit(0);
     else if (key == GLFW_KEY_P) {
         paused = !paused;
         std::cout << (paused ? "PAUSED!" : "RESUMING...") << std::endl;
@@ -218,7 +218,7 @@ void display(GLFWwindow* window) {
     double deltaTime = 0, currFrame = 0;
     int frames = 0, updates = 0;
 
-    while (!glfwWindowShouldClose(window)) {
+    while (!gameFinished) {
         // frame/update timing
         currFrame = glfwGetTime();
         deltaTime += (currFrame - lastFrame) / limitUpdates;
@@ -251,12 +251,6 @@ void display(GLFWwindow* window) {
             if (!snake->isAlive())
                 gameOver(window, false);
 
-            if (gameFinished) {
-                delete snake;
-                delete food;
-                return;
-            }
-
             updates++;
             deltaTime--;
         }
@@ -275,6 +269,9 @@ void display(GLFWwindow* window) {
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    delete snake;
+    delete food;
 }
 
 void startGame(GLFWwindow* window) {
