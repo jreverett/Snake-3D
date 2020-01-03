@@ -45,7 +45,7 @@ To open the project in visual studio, open the *Snake3D.sln* file and build the 
 
 ### How To Play
 
-To start Snake3D, launch the executable file *Snake3D.exe*, which can be found by opening the *Executable* folder and running *Snake3D.exe*. Once running, the player will see a prompt in the console window asking them to choose a map size, the map sizes break down as follows:
+To start Snake3D, launch the executable file *Snake3D.exe*, which can be found in the *Executable* folder. Once running, the player will see a prompt in the console window asking them to choose a map size, the map sizes break down as follows:
 
 | Map Size | Map Dimensions | Number of Blocks (% increase from previous size) |
 | :------- | :-----------: | :--------------: |
