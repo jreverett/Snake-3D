@@ -3,11 +3,10 @@
 
 #include <GL/freeglut.h>
 
-SnakeBody::SnakeBody(float sbX, float sbY, float sbZ, float sbSize) {
+SnakeBody::SnakeBody(float sbX, float sbY, float sbZ) {
 	x = sbX;
 	y = sbY;
 	z = sbZ;
-	size = sbSize;
 	r = red;
 	g = green;
 	b = blue;
@@ -20,7 +19,48 @@ void SnakeBody::draw() {
 		glColor3ub(r, g, b);
 	else
 		glColor3f(r, g, b);
-	glCallList(1); // TODO: this CallListID shouldn't be hardcoded
+
+    #pragma region cube_vectors
+    glBegin(GL_QUADS);
+    // front face
+    glNormal3f(0, 0, -1);
+    glVertex3f(0.5, 0.5, -0.5);
+    glVertex3f(-0.5, 0.5, -0.5);
+    glVertex3f(-0.5, -0.5, -0.5);
+    glVertex3f(0.5, -0.5, -0.5);
+    // back face
+    glNormal3f(0, 0, 1);
+    glVertex3f(0.5, 0.5, 0.5);
+    glVertex3f(-0.5, 0.5, 0.5);
+    glVertex3f(-0.5, -0.5, 0.5);
+    glVertex3f(0.5, -0.5, 0.5);
+    // top face
+    glNormal3f(0, 1, 0);
+    glVertex3f(-0.5, 0.5, -0.5);
+    glVertex3f(-0.5, 0.5, 0.5);
+    glVertex3f(0.5, 0.5, 0.5);
+    glVertex3f(0.5, 0.5, -0.5);
+    // bottom face
+    glNormal3f(0, -1, 0);
+    glVertex3f(-0.5, -0.5, -0.5);
+    glVertex3f(-0.5, -0.5, 0.5);
+    glVertex3f(0.5, -0.5, 0.5);
+    glVertex3f(0.5, -0.5, -0.5);
+    // left face
+    glNormal3f(1, 0, 0);
+    glVertex3f(0.5, 0.5, -0.5);
+    glVertex3f(0.5, 0.5, 0.5);
+    glVertex3f(0.5, -0.5, 0.5);
+    glVertex3f(0.5, -0.5, -0.5);
+    // right face
+    glNormal3f(-1, 0, 0);
+    glVertex3f(-0.5, 0.5, -0.5);
+    glVertex3f(-0.5, 0.5, 0.5);
+    glVertex3f(-0.5, -0.5, 0.5);
+    glVertex3f(-0.5, -0.5, -0.5);
+    glEnd();
+    #pragma endregion cube_vectors
+
 	glPopMatrix();
 }
 

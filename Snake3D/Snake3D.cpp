@@ -111,52 +111,6 @@ void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {
 
 
 /////////////////////////////////////
-// Display Lists
-// creates a simple cube
-void cubeDL() {
-    GLuint cube = glGenLists(1);
-    glNewList(cube, GL_COMPILE);
-        glBegin(GL_QUADS);
-        // front face
-        glNormal3f(0, 0, -1);
-        glVertex3f(0.5, 0.5, -0.5); 
-        glVertex3f(-0.5, 0.5, -0.5);
-        glVertex3f(-0.5, -0.5, -0.5);
-        glVertex3f(0.5, -0.5, -0.5);
-        // back face
-        glNormal3f(0, 0, 1);
-        glVertex3f(0.5, 0.5, 0.5);
-        glVertex3f(-0.5, 0.5, 0.5);
-        glVertex3f(-0.5, -0.5, 0.5);
-        glVertex3f(0.5, -0.5, 0.5);
-        // top face
-        glNormal3f(0, 1, 0);
-        glVertex3f(-0.5, 0.5, -0.5);
-        glVertex3f(-0.5, 0.5, 0.5);
-        glVertex3f(0.5, 0.5, 0.5);
-        glVertex3f(0.5, 0.5, -0.5);
-        // bottom face
-        glNormal3f(0, -1, 0);
-        glVertex3f(-0.5, -0.5, -0.5);
-        glVertex3f(-0.5, -0.5, 0.5);
-        glVertex3f(0.5, -0.5, 0.5);
-        glVertex3f(0.5, -0.5, -0.5);
-        // left face
-        glNormal3f(1, 0, 0);
-        glVertex3f(0.5, 0.5, -0.5);
-        glVertex3f(0.5, 0.5, 0.5);
-        glVertex3f(0.5, -0.5, 0.5);
-        glVertex3f(0.5, -0.5, -0.5);
-        // right face
-        glNormal3f(-1, 0, 0);
-        glVertex3f(-0.5, 0.5, -0.5);
-        glVertex3f(-0.5, 0.5, 0.5);
-        glVertex3f(-0.5, -0.5, 0.5);
-        glVertex3f(-0.5, -0.5, -0.5);
-        glEnd();
-    glEndList();
-}
-/////////////////////////////////////
 
 void drawGrid() {
     float offset = 0.5f;
@@ -395,7 +349,6 @@ int main() {
     glfwSetFramebufferSizeCallback(window, onWindowResize);
 
     // setup any required OpenGL settings
-    cubeDL();
     initOpenGL();
 
     printWelcomeAscii();

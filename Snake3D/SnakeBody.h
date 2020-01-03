@@ -8,7 +8,7 @@ const int blue = 50;
 
 class SnakeBody {
 public:
-	SnakeBody(float sbX, float sbY, float sbZ, float sbSize = 1.0f);
+	SnakeBody(float sbX, float sbY, float sbZ);
 
 	void draw();
 
@@ -22,7 +22,7 @@ public:
 	float getZ();
 
 private:
-	float x, y, z, size, r, g, b;
+	float x, y, z, r, g, b;
 };
 
 #endif
