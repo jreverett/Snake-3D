@@ -10,7 +10,7 @@ Snake::Snake(float sX, float sZ, int bodyLength) {
 	for (int i = 0; i < bodyLength; i++) {
 		SnakeBody* tempBody = new SnakeBody(sX - i, 0, sZ);
 
-		// this is the only block (the head), so make it red
+		// this is the head cube, so make it red
 		if (i == 0)
 			tempBody->setColour(1, 0, 0);
 
@@ -73,7 +73,7 @@ void Snake::updateBody() {
 }
 
 void Snake::detectCollisions(Food* food, int halfGridSize) {
-	// check if the snakes head has hit something
+	// check if the snake's head has hit something
 	float xHead = body.at(0)->getX();
 	float zHead = body.at(0)->getZ();
 
