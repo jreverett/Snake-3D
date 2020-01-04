@@ -2,6 +2,8 @@
 
 #### Student No: 10550420 / Jamie Everett
 
+Please note: This readme is best viewed in GitHub, available here: https://github.com/SOFT356/SOFT356-C2-JamieEverett.
+
 ## Software Used for Development:
 
 <ul>
