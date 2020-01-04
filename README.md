@@ -14,9 +14,7 @@ Please note: This readme is best viewed in GitHub, available here: https://githu
 
 ## How To Use Snake 3D:
 
-Snake 3d is an update to the popular 2D game 'Snake' which was created in 19...
-
-### Keybindings
+### Key bindings
 
 Snake3D comes with the following controls to provide player interaction with the game:
 
@@ -41,11 +39,11 @@ Snake3D comes with the following controls to provide player interaction with the
 
 <br>
 
-### How To Open
+### How to Open
 
 To open the project in visual studio, open the *Snake3D.sln* file and build the project in *Debug* mode.
 
-### How To Play
+### How to Play
 
 To start Snake3D, launch the executable file *Snake3D.exe*, which can be found in the *Executable* folder. Once running, the player will see a prompt in the console window asking them to choose a map size, the map sizes break down as follows:
 
@@ -56,7 +54,7 @@ To start Snake3D, launch the executable file *Snake3D.exe*, which can be found i
 | Large    | 11x11         | 121 *(+~50%)*    |
 | Huge     | 13x13         | 169 *(+~40%)*    |
 
-Once a valid selection has been made, the requested grid will be generated with a snake (*see figure 1.0*) and food item (*see figure 1.1*) positioned on top of it. The game will start once the player presses a directional input (shown in the keybindings section).
+Once a valid selection has been made, the requested grid will be generated with a snake (*see figure 1.0*) and food item (*see figure 1.1*) positioned on top of it. The game will start once the player presses a directional input (shown in the key bindings section).
 
 | !["Snake movement](docs/snake_movement.gif "Snake movement") |
 | :--: |
@@ -91,7 +89,7 @@ Snake3D
 
 #### Snake3D.cpp
 
-The code is made up of 4 cpp files, the main one being *Snake3D.cpp*. From this file the game logic is executed and frame updates are coordinated. *Snake3D.cpp* is also responsible for creating and destroying instances of the *Snake.cpp* and *Food.cpp* classes, while the *Snake.cpp* class is responsible for adding new *SnakeBody.cpp* objects to the current *Snake.cpp* object.
+The code is made up of 4 cpp files, the main one being *Snake3D.cpp*. From this file the game logic is executed, and frame updates are coordinated. *Snake3D.cpp* is also responsible for creating and destroying instances of the *Snake.cpp* and *Food.cpp* classes, while the *Snake.cpp* class is responsible for adding new *SnakeBody.cpp* objects to the current *Snake.cpp* object.
 
 #### Snake.cpp
 
@@ -109,7 +107,7 @@ The final class is the food class. Like the *SnakeBody.cpp* class, apart from th
 
 *display(GLFWwindow\* window)* <-- (inside *Snake3D.cpp*)
 <br>
-The display loop is where most of the programs runtime is spent as it renders the snake, food and grid elements as well as checking for collisions (*snake->detectCollisions*).
+The display loop is where most of the program's runtime is spent as it renders the snake, food and grid elements as well as checking for collisions (*snake->detectCollisions*).
 It is also responsible for linking callbacks, handling frame timing/update frequency and updating the camera position.
 <br>
 Most of this function is repeatedly called until either *Escape* is pressed (which calls *exit(0)*) or a win/loss condition is met (which ends the current game and returns the player to the map size selection prompt).
@@ -133,13 +131,13 @@ The snake and food objects are created at the start of each new game using the *
 
 As an optimisation, to prevent the food object from being destroyed and a new one created every time the snake eats it, the same food object is used throughout an entire game. Once the food is eaten, it's X and Z coordinates are randomised (and checked to ensure they are not underneath a snake section), which takes less processing time than destroying and recreating the object.
 
-I have added sounds to my game as it provides another dimension of feedback, which in turn makes for a greater user experience. Different sounds are played if a snake eats a food block, if the snake dies and also if the player wins.
+I have added sounds to my game as it provides another dimension of feedback, which in turn makes for a greater user experience. Different sounds are played if a snake eats a food block, if the snake dies and if the player wins.
 
-All inputs in my game have validators which ensure there is no undocumented behavior. If an input fails to pass a validator, the prompt is repeated.
+All inputs in my game have validators which ensure there is no undocumented behaviour. If an input fails to pass a validator, the prompt is repeated.
 
 In order to create the clunky 'retro' snake movement, I added an update limiter (using the delta time between frames). This limiter is set to 5 updates per second, which I found mimics the original 2D game well. However, to prevent the food animation from also appearing clunky, I isolated the update limiter to just the snake updates, so the rendering happens as fast as the machine can run (typically around 2.5-3k fps) which keeps the food animation looking smooth.
 
-Finally, I added a zoom option which is controlled by the scroll wheel. When the camera is fully zoomed in, the player appears to be standing at the same level as the grid, however when zoomed out, the camera is position to look top-down onto the grid. This is to recreate a 'faux-2D' perspective as a reference to the original 2D game.
+Finally, I added a zoom option which is controlled by the scroll wheel. When the camera is fully zoomed in, the player appears to be standing at the same level as the grid, however when zoomed out, the camera is positioned to look top-down onto the grid. This is to recreate a 'faux-2D' perspective as a reference to the original 2D game.
 
 ## Program Background:
 
@@ -151,8 +149,8 @@ I created this project from scratch, building it up as I went; starting with a g
 
 ## Future Improvements:
 
-I believe this project can be improved further with with the addition of several features.
+I believe this project can be improved further with the addition of several features.
 
 One improvement would be to add a difficulty mechanic, where the snake speeds up as the total number of food collected increases. This would be fairly simple to implement, as I already have a *limitUpdates* variable, so combining this with the *snake.body.size()* function would be straight forward.
 
-I would also like to add more camera options, such as keybindings for *A* and *D* which rotate either the camera or the grid. I'd also like to add first and third person viewpoints which would follow the snake as it moves around the 3D environment.
+I would also like to add more camera options, such as key bindings for *A* and *D* which rotate either the camera or the grid. I'd also like to add first and third person viewpoints which would follow the snake as it moves around the 3D environment.
