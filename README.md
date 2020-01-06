@@ -39,13 +39,15 @@ Snake3D comes with the following controls to provide player interaction with the
 
 <br>
 
-### How to Open
+### How to Build
 
-To open the project in visual studio, open the *Snake3D.sln* file and build the project in *Debug* mode.
+To open the project in visual studio, open the *Snake3D.sln* file. Then, select *Debug* in the solution configuration dropdown and *x64* in the solution platform dropdown. Finally, build the project by either pressing *F6* or selecting the build option in the build menu.
 
 ### How to Play
 
-To start Snake3D, launch the executable file *Snake3D.exe*, which can be found in the *Executable* folder. Once running, the player will see a prompt in the console window asking them to choose a map size, the map sizes break down as follows:
+To start Snake3D, launch the executable file *Snake3D.exe*, which can be found in the *Executable* folder. If you're instead running the executable that you created from the previous step, you will need to first copy the *sounds* folder (found at *Snake3D/sounds*) and paste it into the build folder (*x64/Debug*), otherwise the game will play without sound effects.
+
+Once running, the player will see a prompt in the console window asking them to choose a map size, the map sizes break down as follows:
 
 | Map Size | Map Dimensions | Number of Blocks (% increase from previous size) |
 | :------- | :-----------: | :--------------: |
