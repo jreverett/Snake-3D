@@ -4,6 +4,8 @@
 
 Please note: This readme is best viewed in GitHub, available here: https://github.com/SOFT356/SOFT356-C2-JamieEverett.
 
+**The video report for this project can be streamed here:** https://youtu.be/4WVVP-jb2mU.
+
 ## Software Used for Development:
 
 <ul>
@@ -45,7 +47,7 @@ To open the project in visual studio, open the *Snake3D.sln* file. Then, select 
 
 ### How to Play
 
-To start Snake3D, launch the executable file *Snake3D.exe*, which can be found in the *Executable* folder. If you're instead running the executable that you created from the previous step, you will need to first copy the *sounds* folder (found at *Snake3D/sounds*) and paste it into the build folder (*x64/Debug*), otherwise the game will play without sound effects.
+To start Snake3D, launch the executable file *Snake3D.exe*, which can be found in the *executable* folder. If you're instead running the executable that you created from the previous step, you will need to first copy the *sounds* folder (found at *Snake3D/sounds*) and paste it into the build folder (*x64/Debug*), otherwise the game will play without sound effects.
 
 Once running, the player will see a prompt in the console window asking them to choose a map size, the map sizes break down as follows:
 
